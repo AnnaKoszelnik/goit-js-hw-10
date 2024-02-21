@@ -31,6 +31,8 @@ breedSelect.addEventListener('change', e => {
 });
 
 function renderCat(catData) {
+  catInfo.innerHTML = '';
+
   const { url } = catData;
   const { description, name, temperament } = catData.breeds[0];
   catInfo.insertAdjacentHTML(
@@ -44,3 +46,6 @@ function renderCat(catData) {
   );
   loader.classList.add('hidden');
 }
+function renderCat(catData) {
+  // Czyszczenie poprzedniej zawartości
+  catInfo.innerHTML = '';
