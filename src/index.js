@@ -7,12 +7,14 @@ new SlimSelect({
 const breedSelect = document.querySelector('.breed-select');
 const catInfo = document.querySelector('.cat-info');
 const loader = document.querySelector('.loader');
+const errorText = document.querySelector('.error');
 
 try {
   loader.classList.remove('hidden');
   fetchBreeds().then(data => renderSelect(data));
 } catch (error) {
   console.log(error);
+  errorText.classList.remove('hidden');
 }
 
 function renderSelect(breeds) {
@@ -27,7 +29,11 @@ function renderSelect(breeds) {
 
 breedSelect.addEventListener('change', e => {
   loader.classList.remove('hidden');
-  fetchCatByBreed(e.target.value).then(data => renderCat(data[0]));
+  fetchCatByBreed(e.target.value).then(data => renderCat(data[0])).catch(error => {
+    console.log(error);
+   
+    errorText.classList.remove('hidden');
+  });
 });
 
 function renderCat(catData) {
@@ -39,13 +45,10 @@ function renderCat(catData) {
     'beforeend',
     `<div>
         <h2>${name}</h2>
-        <img src="${url}" alt="${name}" />
+        <img src="${url}" alt="${name}" class="cat-image" width="60%" height="auto" />
         <p>${description}</p>
         <p><strong>Temperament:</strong> ${temperament}</p>
     </div>`
   );
   loader.classList.add('hidden');
 }
-function renderCat(catData) {
-  // Czyszczenie poprzedniej zawartości
-  catInfo.innerHTML = '';
